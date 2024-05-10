@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Reservation>
+@{
+    ViewData["Title"] = "ActiveReservations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+
+    .reservation-card {
+        background-color: #67e4da;
+        padding: 20px;
+        margin-top: 50px;
+        margin-bottom: 200px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .reservation-card h3 {
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        .reservation-card p {
+            margin-bottom: 5px;
+        }
+
+        .reservation-card .details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+    .additional-content {
+        margin-top: 50px;
+        margin-bottom: 175px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+        .additional-content h3 {
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        .additional-content p {
+            color: #555;
+            line-height: 1.6;
+        }
+</style>
+
+
+<div class="container">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (Model == null || !Model.Any())
+        {
+            <div class="additional-content">
+                <h3>Aktif Rezervasyonlarınız</h3>
+                <p>Rezervasyonunuz bulunmamaktadır.</p>
+                <p>Lütfen bir araç rezervasyonu yapmak için <a asp-controller="Reservation" asp-action="TakeReservation">buraya tıklayın</a>.</p>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="reservation-card">
+                            <div>
+                                <h3><strong>Rezervasyon ID: @item.ReservationID</strong></h3>
+                                <p><strong>Araç Tipi:</strong> @item.Car.Model</p>
+                                <p><strong>Alış Tarihi:</strong> @item.PickupDate.ToShortDateString()</p>
+                                <p><strong>Teslim Tarihi:</strong> @item.ReturnDate.ToShortDateString()</p>
+                                <p><strong>Toplam Ücret:</strong> ₺@item.TotalPrice</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="additional-content">
+            <h3>Aktif Rezervasyonlarınızı Görüntüleyin</h3>
+            <p>Eğer bir hesabınız varsa, aktif rezervasyonlarınızı görüntülemek için lütfen giriş yapın.</p>
+            <p><a asp-controller="Account" asp-action="Login" class="btn btn-primary">Giriş Yap</a></p>
+        </div>
+    }
+</div>
+

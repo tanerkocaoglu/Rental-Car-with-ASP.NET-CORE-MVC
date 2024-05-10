@@ -1,0 +1,110 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar {
+        background-color: #343a40;
+    }
+
+    .navbar-brand {
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .navbar-nav .nav-link {
+        color: #fff;
+    }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffc107;
+        }
+
+    .card {
+        background-color: #fff;
+        border-radius: 25px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .card-title {
+        color: #333;
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .form-control {
+        border-radius: 20px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #fd1d1d;
+            box-shadow: 0 0 0 0.2rem rgba(253, 29, 29, 0.25);
+        }
+
+    .btn-primary {
+        border-radius: 20px;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        background-color: #0713c1;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #2a34b4;
+        }
+</style>
+
+<div class="container pt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-5">
+                <h2 class="card-title text-center mb-4">Kayıt Ol</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+                <form method="post">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" asp-for="FullName" placeholder="İsim" required>
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" asp-for="Username" placeholder="Kullanıcı Adı" required>
+                        <span asp-validation-for="Username" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" asp-for="Email" placeholder="E-posta" required>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" asp-for="Password" placeholder="Şifre" required>
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" asp-for="RePassword" placeholder="Şifre Tekrar Giriniz  " required>
+                        <span asp-validation-for="RePassword" class="text-danger small"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100"> <i class="fa-solid fa-save me-2"></i>Kayıt Ol</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

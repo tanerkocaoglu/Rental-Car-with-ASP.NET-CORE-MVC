@@ -1,0 +1,45 @@
+﻿@model IEnumerable<RentalCar.Entites.Contact>
+
+@{
+    ViewData["Title"] = "ListContact";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="mb-3">
+
+    <h3 class="fw-bold fs-4 mb-3">Mesajlar</h3>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="highlight">
+                        <th scope="col">İsim</th>
+                        <th scope="col">E-Posta</th>
+                        <th scope="col">Telefon numarası</th>
+                        <th scope="col">Mesaj</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Message)
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

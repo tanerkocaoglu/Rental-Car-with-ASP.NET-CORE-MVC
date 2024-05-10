@@ -1,0 +1,222 @@
+﻿@model ReservationViewModel
+@{
+    var selectedCar = TempData["SelectedCar"] as Car;
+    ViewData["Title"] = "TakeReservation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        /* background-color: #f2f2f2; */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 50px auto;
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+    }
+
+    button[type="submit"] {
+        background-color: #0602ce;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+        button[type="submit"]:hover {
+            background-color: #007bff;
+            transform: scale(1.05);
+        }
+
+    /* Görsel Eklemeler */
+    .car-image {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .reservation-icon {
+        font-size: 2rem;
+        color: #343a40;
+    }
+
+    .title-icon {
+        font-size: 1.5rem;
+        color: #4b4755;
+        margin-right: 5px;
+    }
+
+    .reservation-details {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: 100%;
+    }
+
+        .reservation-details h4 {
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .reservation-details p {
+            color: #333;
+        }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-container">
+                <div class="text-center mb-4">
+                    <h2 class="mb-4" style="color: #343a40;"><i class="far fa-calendar-alt reservation-icon"></i> Araç Rezervasyonu</h2>
+                    <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+                </div>
+                <form method="post">
+                    <input asp-for="CarID" value="@selectedCar.CarID" hidden>
+                    <div class="form-group">
+                        <label for="name"><i class="far fa-user title-icon"></i> Adınız</label>
+                        <input disabled type="text" id="name" name="name" placeholder="@User.FindFirst(System.Security.Claims.ClaimTypes.Name).Value" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PickupDate" for="pickupDate"><i class="far fa-calendar-alt title-icon"></i> Alış Tarihi</label>
+                                <input asp-for="PickupDate" type="date" id="pickupDate" name="pickupDate" onchange="calculatePrice()" required>
+                                <span asp-validation-for="PickupDate" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ReturnDate" for="returnDate"><i class="fas fa-calendar-day title-icon"></i> Teslim Tarihi</label>
+                                <input asp-for="ReturnDate" type="date" id="returnDate" name="returnDate" onchange="calculatePrice()" required>
+                                <span asp-validation-for="ReturnDate" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label asp-for="TotalPrice"><i class="fas fa-money-bill title-icon"></i> Ödenecek Tutar</label>
+                                    <input asp-for="TotalPrice" type="text" id="totalPrice" name="totalPrice" value="" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit"><i class="far fa-check-circle title-icon"></i> Rezervasyon Yap</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            @if (selectedCar != null)
+            {
+                <div class="reservation-details">
+                    <h4>Rezervasyon Detayları</h4>
+                    <p><strong>Teslim Alış Tarihi: </strong><span id="pickupDateDisplay">xxxx-xx-xx</span></p>
+                    <p><strong>Teslim Tarihi: </strong> <span id="returnDateDisplay">xxxx-xx-xx</span></p>
+                    <p id="price" data-daily-rate="@selectedCar.DailyRate"><strong>Günlük Ücret: </strong>@selectedCar.DailyRate₺</p>
+                    <hr>
+                    <p><strong>Araç Özellikleri:</strong></p>
+                    <ul>
+                        <li>Marka: @selectedCar.Brand</li>
+                        <li>Model: @selectedCar.Model</li>
+                        <li>Vites Tipi: @selectedCar.TransmissionType</li>
+                        <li>Yakıt Tipi: @selectedCar.FuelType</li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mevcut tarihi al
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); // Ocak 0 olduğu için +1 eklenir.
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+
+    // Minimum tarih olarak bugünü ayarla
+    document.getElementById("pickupDate").setAttribute("min", today);
+    document.getElementById("returnDate").setAttribute("min", today);
+
+    // Teslim alış tarihinden önceki tarihlerin seçilmesini engelle
+    document.getElementById('pickupDate').addEventListener('change', function () {
+        var pickupDate = new Date(this.value);
+        var returnDateInput = document.getElementById('returnDate');
+        var returnDate = new Date(returnDateInput.value);
+
+        if (pickupDate > returnDate) {
+            returnDateInput.value = this.value;
+        }
+
+        returnDateInput.min = this.value;
+    });
+
+    function calculatePrice() {
+        var pickupDate = new Date(document.getElementById("pickupDate").value);
+        var returnDate = new Date(document.getElementById("returnDate").value);
+        var dailyRate = parseFloat(document.getElementById("price").getAttribute("data-daily-rate"));
+
+        // Teslim alma tarihi alanını güncelle
+        document.getElementById("pickupDateDisplay").textContent = pickupDate.toLocaleDateString();
+
+        // Teslim tarihi alanını güncelle
+        if (!isNaN(returnDate.getTime())) {
+            document.getElementById("returnDateDisplay").textContent = returnDate.toLocaleDateString();
+        }
+
+        var totalPriceElement = document.getElementById("totalPrice");
+
+        if (pickupDate && returnDate && returnDate >= pickupDate) {
+            var diffTime = returnDate.getTime() - pickupDate.getTime();
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            var totalPrice = diffDays * dailyRate;
+
+            if (diffDays === 0) {
+                totalPrice = dailyRate; // Eğer aynı gün seçildiyse 1 günlük ücreti kabul edin
+            }
+
+            totalPriceElement.value = totalPrice;;
+        } else {
+            // Teslim etme tarihi henüz seçilmemişse, ücreti hesaplamadan önce bekleyin
+            document.getElementById("totalPrice").textContent = "";
+        }
+    }
+
+</script>
+
+
+

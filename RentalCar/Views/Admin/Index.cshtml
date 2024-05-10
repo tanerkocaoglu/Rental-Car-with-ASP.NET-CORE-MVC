@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card card-primary">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-car icon"></i> Aktif Araç Sayısı</h5>
+                    <p class="card-text">Toplam: @ViewData["ActiveCars"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card card-secondary">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-user-alt icon"></i> Aktif Kullanıcı Sayısı</h5>
+                    <p class="card-text">Toplam: @ViewData["UserCount"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card card-primary">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-calendar-check icon"></i> Aktif Rezervasyon Sayısı</h5>
+                    <p class="card-text">Toplam: @ViewData["ActiveReservationCount"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card card-primary">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-message icon"></i> Mesaj Sayısı</h5>
+                    <p class="card-text">Toplam: @ViewData["MessageCount"]</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diğer card'lar buraya eklenebilir -->
+
+    </div>
+</div>
+
+<!-- Bootstrap 5 ve jQuery CDN'leri -->

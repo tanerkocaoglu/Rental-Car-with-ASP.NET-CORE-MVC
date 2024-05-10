@@ -1,0 +1,61 @@
+﻿@model IEnumerable<RentalCar.Entites.Reservation>
+
+@{
+    ViewData["Title"] = "ActiveReservation";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="mb-3">
+
+    <h3 class="fw-bold fs-4 mb-3">Aktif Rezervasyonlar</h3>
+    <a class="btn btn-success mb-3" asp-controller="Admin" asp-action="AllReservations"><i class="fa-solid fa-list"></i> Tüm Rezervasyonlar</a>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="highlight">
+                        <th scope="col">Rezervasyon ID</th>
+                        <th scope="col">Ad</th>
+                        <th scope="col">Araç Markası</th>
+                        <th scope="col">Araç Modeli</th>
+                        <th scope="col">Teslim alma tarihi</th>
+                        <th scope="col">Teslim ediş tarihi</th>
+                        <th scope="col">Ödenecek toplam ücret</th>
+                        <th scope="col"><strong>TESLİM AL</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.ReservationID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.User.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Car.Brand)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Car.Model)
+                            </td>
+                            <td>
+                                @item.PickupDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @item.ReturnDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.TotalPrice)₺
+                            </td>
+                            <td>
+                                <a class="btn btn-info" asp-controller="Admin" asp-action="ReceiveReservation" asp-route-id="@item.ReservationID"><i class="fa-solid fa-pen"></i> TESLİM AL</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,174 @@
+﻿@model IEnumerable<Car>
+@{
+    ViewData["Title"] = "Cars";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    /* Araç kartları */
+    .car-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        margin-bottom: 20px;
+    }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .car-image-container {
+        height: 200px;
+        overflow: hidden;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .car-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .car-details {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .car-price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    /* Filtreleme paneli */
+    .filter-panel {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .filter-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .filter-item {
+        margin-bottom: 10px;
+    }
+
+        .filter-item label {
+            font-weight: bold;
+        }
+
+    /* Fiyat aralığı kaydırıcısı */
+    .price-range-label {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .price-range-value {
+        font-size: 1.2rem;
+        font-weight: bold;
+        co lor: #007bff;
+        margin-left: 10px;
+    }
+
+    /* Icon */
+    .filter-icon {
+        margin-right: 10px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="filter-panel">
+                <h2 class="filter-title"><i class="filter-icon fas fa-filter"></i>Filtrele</h2>
+                <div class="filter-item">
+                    <label for="min-price" class="price-range-label">Min Fiyat:</label>
+                    <input type="range" class="form-range" id="min-price" min="0" max="1000" step="50" oninput="updatePrice()">
+                    <span id="min-price-value" class="price-range-value">₺500</span>
+                </div>
+                <div class="filter-item">
+                    <label for="max-price" class="price-range-label">Max Fiyat:</label>
+                    <input type="range" class="form-range" id="max-price" min="0" max="1000" step="50" oninput="updatePrice()">
+                    <span id="max-price-value" class="price-range-value">₺500</span>
+                </div>
+                <div class="filter-item">
+                    <button class="btn btn-primary" onclick="filterCars()">Filtrele</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <div class="row ms-auto" id="car-list">
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="filter-item col-md-12">
+                            <p><strong total-cars>Toplam <span id="total-cars">@ViewData["CarCount"]</span> araç bulundu.</strong></p>
+                        </div>
+                    </div>
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4 car-card">
+                        <div class="car-image-container">
+                            <img class="car-image" src="../images/@Html.DisplayFor(modelItem=> item.ImageFile)" alt="Car 1">
+                        </div>
+                        <div class="car-details">
+                            <p><strong>Marka:</strong> @Html.DisplayFor(modelitem => item.Brand)</p>
+                            <p><strong>Model:</strong>  @Html.DisplayFor(modelitem => item.Model)</p>
+                            <p><strong>Üretim Yılı:</strong>  @Html.DisplayFor(modelitem => item.Year)</p>
+                            <p><strong>Vites Tipi:</strong>  @Html.DisplayFor(modelitem => item.TransmissionType)</p>
+                            <p><strong>Yakıt Tipi:</strong>  @Html.DisplayFor(modelitem => item.FuelType)</p>
+                        </div>
+                        <div class="car-price">₺@Html.DisplayFor(modelitem => item.DailyRate) / Günlük</div>
+                        <a asp-action="TakeReservation" asp-controller="Reservation" asp-route-id="@item.CarID" class="btn btn-primary">Kiralama</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updatePrice() {
+        var minPrice = document.getElementById("min-price").value;
+        var maxPrice = document.getElementById("max-price").value;
+        document.getElementById("min-price-value").textContent = "₺" + minPrice;
+        document.getElementById("max-price-value").textContent = "₺" + maxPrice;
+    }
+
+    function filterCars() {
+        var minPriceFilter = parseInt(document.getElementById("min-price").value);
+        var maxPriceFilter = parseInt(document.getElementById("max-price").value);
+
+        var carCards = document.getElementsByClassName("car-card");
+        var totalCars = 0;
+        for (var i = 0; i < carCards.length; i++) {
+            var carPrice = parseInt(carCards[i].getElementsByClassName("car-price")[0].textContent.replace("₺", ""));
+            if (carPrice >= minPriceFilter && carPrice <= maxPriceFilter) {
+                carCards[i].style.display = "block";
+                totalCars++;
+            } else {
+                carCards[i].style.display = "none";
+            }
+        }
+        document.getElementById("total-cars").textContent = totalCars;
+    }
+</script>
+
+
+
+
+
+

@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewData["Title"] = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Navbar */
+
+    /* Ana başlık */
+    .welcome-section {
+        background-image: url('/images/arkaplan.webp');
+        background-size: cover;
+        background-position: center;
+        padding: 62px; /* Azaltılmış padding */
+        text-align: center;
+        color: #fff;
+    }
+
+        .welcome-section h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .welcome-section p {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+    /* İçerik */
+    .content-section {
+        background-color: #f8f9fa;
+        padding: 50px 0;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+        .content-section h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #343a40;
+        }
+
+        .content-section p {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+    /* Ayraçlar */
+    .separator {
+        width: 100px;
+        height: 3px;
+        background-color: #343a40;
+        margin: 20px auto;
+    }
+
+    /* Görseller */
+    .image-section {
+        margin-bottom: 50px;
+        background-color: #fff;
+        padding: 100px 0;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+    /* Footer */
+
+    /* Ekstra stiller */
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+</style>
+
+<body>
+
+    <div class="container-fluid p-0">
+        <div class="welcome-section">
+            <div class="welcome-content py-5">
+                <h1>Hakkımızda</h1>
+                <p>Oto Kiralama, en uygun fiyatlarla araç kiralama fırsatları sunan bir platformdur. Geniş araç filomuz ve uygun fiyatlarımızla müşterilerimizin beklentilerini karşılamak için çalışıyoruz.</p>
+            </div>
+        </div>
+
+        <div class="content-section mt-5">
+            <div class="container">
+                <h2>Biz Kimiz?</h2>
+                <div class="separator"></div>
+                <p>Oto Kiralama olarak, müşterilerimize güvenilir ve kaliteli hizmet sunmayı amaçlıyoruz. Geniş araç filomuz ve uygun fiyatlarımızla müşterilerimizin beklentilerini karşılamak için çalışıyoruz.</p>
+
+                <h2>Vizyonumuz</h2>
+                <div class="separator"></div>
+                <p>Oto Kiralama olarak, sektörde lider bir konuma gelmeyi ve müşterilerimize en iyi hizmeti sunmayı hedefliyoruz. Müşteri memnuniyetini ön planda tutarak, sürekli gelişen ve yenilikçi bir marka olmayı amaçlıyoruz.</p>
+
+                <h2>Misyonumuz</h2>
+                <div class="separator"></div>
+                <p>Oto Kiralama olarak, müşterilerimize en iyi hizmeti sunmak için sürekli çaba gösteriyoruz. Geniş araç filomuzla her türlü ihtiyaca cevap vermeyi amaçlıyor, müşterilerimizin güvenini kazanmayı ve memnuniyetini sağlamayı hedefliyoruz.</p>
+
+                <h2>Kalite Politikamız</h2>
+                <div class="separator"></div>
+                <p>Oto Kiralama olarak, müşteri memnuniyetini ön planda tutmayı ve en kaliteli hizmeti sunmayı ilke ediniyoruz. Araçlarımızın bakımı ve temizliği konusunda titizlikle çalışıyoruz.</p>
+            </div>
+        </div>
+
+        <div class="image-section mt-5">
+            <div class="container">
+                <h2>Galeri</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="/images/img1.jpg" alt="Gallery Image 1">
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/images/img2.jpg" alt="Gallery Image 2">
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/images/img3.jpg" alt="Gallery Image 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+

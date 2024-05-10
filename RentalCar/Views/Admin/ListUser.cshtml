@@ -1,0 +1,54 @@
+﻿@model IEnumerable<RentalCar.Entites.User>
+@{
+    ViewData["Title"] = "ListUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="mb-3">
+
+    <h3 class="fw-bold fs-4 mb-3">Kullanıcılar</h3>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="highlight">
+                        <th scope="col">Ad</th>
+                        <th scope="col">Kullanıcı adı</th>
+                        <th scope="col">Şifre</th>
+                        <th scope="col">E-Posta</th>
+                        <th scope="col">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Username)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Password)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.Email)
+                            </td>
+
+                            <td>
+                                <a class="btn btn-info"   asp-controller="Account" asp-action="Edit" asp-route-id="@item.UserId"><i class="fa-solid fa-pen"></i> Düzenle</a>
+                                <a class="btn btn-danger" asp-controller="Account" asp-action="Delete" asp-route-id="@item.UserId"><i class="fa-solid fa-trash"></i> Sil</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
