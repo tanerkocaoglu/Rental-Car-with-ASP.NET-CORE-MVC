@@ -1,6 +1,6 @@
 ﻿namespace RentalCar.Models
 {
-	public class CarViewModel
+	public class CarModel
 	{
 		public int CarID { get; set; }
 

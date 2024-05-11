@@ -1,6 +1,6 @@
 ﻿namespace RentalCar.Models
 {
-	public class LoginViewModel
+	public class LoginModel
 	{
 		[Required(ErrorMessage = "Kullanıcı adı alanını doldurmak zorunludur.")]
 		[MaxLength(50, ErrorMessage = "Kullanıcı adı 50 karakterden fazla olamaz.")]

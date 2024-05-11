@@ -1,12 +1,11 @@
 ﻿@model IEnumerable<RentalCar.Entites.Contact>
 
 @{
-    ViewData["Title"] = "ListContact";
+    ViewData["Title"] = "Nesajlar";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="mb-3">
-
     <h3 class="fw-bold fs-4 mb-3">Mesajlar</h3>
     <div class="row">
         <div class="col-12">
@@ -24,18 +23,18 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelitem => item.FullName)
+                                @item.FullName
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Email)
+                                @item.Email
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.PhoneNumber)
+                                @item.PhoneNumber
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Message)
+                                @item.Message
                             </td>
-                            
+
                         </tr>
                     }
                 </tbody>

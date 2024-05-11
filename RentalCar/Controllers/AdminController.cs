@@ -5,89 +5,111 @@
 	{
 		public readonly DatabaseContext _context = context;
 
+		// Ana sayfa işlemi
 		public IActionResult Index()
 		{
+			// ViewData aracılığıyla müsait araba sayısı aktarılıyor
 			ViewData["ActiveCars"] = _context.Cars.Where(x => x.Availability == true).Count();
+
+			// ViewData aracılığıyla kullanıcı sayısı aktarılıyor (admin dışındaki kullanıcılar)
 			ViewData["UserCount"] = _context.Users.Where(x => x.Role != "admin").Count();
+
+			// ViewData aracılığıyla iletişim mesajı sayısı aktarılıyor
 			ViewData["MessageCount"] = _context.Contacts.Count();
+
+			// ViewData aracılığıyla aktif rezervasyon sayısı aktarılıyor
 			ViewData["ActiveReservationCount"] = _context.Reservations.Where(s => s.Status == true).Count();
-			return View();
+
+			return View(); // Ana sayfa view'e yönlendiriliyor
 		}
 
+
+		// Mesajları listeleme
 		public IActionResult ListContact()
 		{
-			var contacts = _context.
-				Contacts.
-				ToList();
-			return View(contacts);
+			// Tüm mesajlar veritabanından alınıyor ve bir liste olarak view'e iletiliyor
+			var contacts = _context.Contacts.ToList();
+			return View(contacts); // Mesajlarlar view'e yönlendiriliyor
 		}
 
+
+		// Kullanıcıları listeleme 
 		public IActionResult ListUser()
 		{
-			var user = _context.
-				Users.
-				Where(x => x.Role != "admin").
-				ToList();
-			if (user is null)
+			// Rolü admin olmayan kullanıcılar alınıyor ve bir listeye aktarılıyor
+			var users = _context.Users.Where(x => x.Role != "admin").ToList();
+
+			// Eğer kullanıcı bulunamazsa, Admin kontrol paneline yönlendiriliyor
+			if (users.Count == 0)
 			{
 				return RedirectToAction("Index", "Admin");
 			}
-			return View(user);
+
+			return View(users); // Kullanıcılar view'e yönlendiriliyor
 		}
 
+
+		// Aktif rezervasyonları listeleme
 		public IActionResult ActiveReservation()
 		{
-			var reservations = _context.Reservations.
-				Where(s => s.Status == true).
-				Include(c => c.Car).
-				Include(u => u.User).
-				ToList();
-			return View(reservations);
+			// Durumu true olan rezervasyonlar alınıyor, araba ve kullanıcı bilgileri ile birlikte
+			var reservations = _context.Reservations
+				.Where(s => s.Status == true)
+				.Include(c => c.Car)
+				.Include(u => u.User)
+				.ToList();
+
+			return View(reservations); // Aktif rezervasyonlar view'e yönlendiriliyor
 		}
 
+
+		// Rezervasyon alımı işlemi
 		public IActionResult ReceiveReservation(int id)
 		{
-
-			// Rezervasyon ID'sine göre rezervasyonu bul
+			// Belirli bir rezervasyonun detayları alınıyor, araba bilgisiyle birlikte
 			var reservation = _context.Reservations
-				.Include(r => r.Car) // Car özelliğini dahil et
+				.Include(r => r.Car)
 				.FirstOrDefault(r => r.ReservationID == id);
 
+			// Eğer rezervasyon bulunamazsa, Admin kontrol paneline yönlendiriliyor
 			if (reservation == null)
 			{
-				return RedirectToAction("ActiveReservation", "Admin"); // Rezervasyon bulunamazsa sayfayı geri döndür
+				return RedirectToAction("ActiveReservation", "Admin");
 			}
 
-			// Rezervasyonun status'unu false yap
+			// Rezervasyonun durumu alındı olarak güncelleniyor
 			reservation.Status = false;
 
-			// Car özelliğinin null olmadığını kontrol et
+			// Eğer rezervasyona ait araba bilgisi varsa, arabanın müsaitlik durumu true olarak güncelleniyor
 			if (reservation.Car != null)
 			{
-				// Arabanın availability özelliğini true yap
 				reservation.Car.Availability = true;
 			}
 
-			// Değişiklikleri veritabanına kaydet
+			// Değişiklikler veritabanına kaydediliyor
 			int affectedrows = _context.SaveChanges();
 
-			//Veritabanı işlemi gerçekleşmezse hata döndür.
+			// Eğer hiçbir satır etkilenmediyse, model durumuna hata ekleniyor
 			if (affectedrows == 0)
 			{
 				ModelState.AddModelError("", "İşlem yapılamadı.");
 			}
-			// Başarılı işlem durumunda sayfayı geri döndür
-			return RedirectToAction("ActiveReservation", "Admin");
 
+			return RedirectToAction("ActiveReservation", "Admin"); // Aktif rezervasyonlar viewine yönlendiriliyor
 		}
 
+
+		// Tüm rezervasyonları listeleme işlemi
 		public IActionResult AllReservations()
 		{
-			var allreservations = _context.Reservations.
-				Include(c => c.Car).
-				Include(u => u.User).
-				ToList();
-			return View(allreservations);
+			// Tüm rezervasyonlar alınıyor, araba ve kullanıcı bilgileri ile birlikte
+			var allReservations = _context.Reservations
+				.Include(c => c.Car)
+				.Include(u => u.User)
+				.ToList();
+
+			return View(allReservations); // Tüm rezervasyonlar view'e yönlendiriliyor
 		}
+
 	}
 }

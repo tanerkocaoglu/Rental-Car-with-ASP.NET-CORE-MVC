@@ -1,17 +1,16 @@
 ﻿@model IEnumerable<RentalCar.Entites.Car>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Arabalar";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="mb-3">
-
     <h3 class="fw-bold fs-4 mb-3">Arabalar</h3>
     <a class="btn btn-success mb-3" asp-action="Create"><i class="fa-solid fa-plus"></i>  Ekle</a>
     <div class="row">
         <div class="col-12">
             <table class="table table-striped">
-                <thead> 
+                <thead>
                     <tr class="highlight">
                         <th scope="col">Marka</th>
                         <th scope="col">Model</th>
@@ -28,30 +27,30 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                           
+
                             <td>
-                                @Html.DisplayFor(modelitem => item.Brand)
+                                @item.Brand
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Model)
+                                @item.Model
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Year)
+                                @item.Year
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.FuelType)
+                                @item.FuelType
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.TransmissionType)
+                                @item.TransmissionType
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.DailyRate)
+                                @item.DailyRate
                             </td>
                             <td>
                                 @Html.DisplayFor(modelitem => item.Availability)
                             </td>
                             <td>
-                                <img src="../images/@Html.DisplayFor(modelItem=> item.ImageFile)" width="100px" height="100px" />
+                                <img src="../images/@item.ImageFile" width="100px" height="100px" />
                             </td>
                             <td>
                                 <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.CarID"><i class="fa-solid fa-pen"></i> Düzenle</a>

@@ -13,10 +13,10 @@
 		public string Model { get; set; } // Model
 
 		[Required]
-		public int Year { get; set; } // Yıl
+		public int Year { get; set; } // Üretim Yılı
 
 		[Required, StringLength(20)]
-		public string FuelType { get; set; } // Yakıt Türü
+		public string FuelType { get; set; } // Yakıt Tipi
 
 		[Required, StringLength(20)]
 		public string TransmissionType { get; set; } // Vites Tipi
@@ -28,6 +28,6 @@
 		public bool Availability { get; set; } = true; // Durum
 
 		[Required]
-		public string ImageFile { get; set; }
+		public string ImageFile { get; set; } // Araç Fotoğrafı
 	}
 }

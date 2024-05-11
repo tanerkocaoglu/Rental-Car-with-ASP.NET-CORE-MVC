@@ -25,6 +25,6 @@
 		public int TotalPrice { get; set; } // Toplam Ücret
 
 		[Required]
-		public bool Status { get; set; } = true;
+		public bool Status { get; set; } = true; // Rezervason Durumu
 	}
 }

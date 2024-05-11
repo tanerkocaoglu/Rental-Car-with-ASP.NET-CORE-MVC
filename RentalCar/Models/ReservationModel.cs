@@ -1,6 +1,6 @@
 ﻿namespace RentalCar.Models
 {
-	public class ReservationViewModel
+	public class ReservationModel
 	{
 
 		public int UserID { get; set; } // KullanıcıID (Yabancı Anahtar)

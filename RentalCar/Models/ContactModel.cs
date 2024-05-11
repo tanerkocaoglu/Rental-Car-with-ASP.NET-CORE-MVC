@@ -1,6 +1,6 @@
 ﻿namespace RentalCar.Models
 {
-	public class ContactViewModel
+	public class ContactModel
 	{
 		[Required(ErrorMessage = "İsim alanını doldurmak zorunludur.")]
 		[MaxLength(50, ErrorMessage = "İsim en fazla 50 karakter olabilir.")]

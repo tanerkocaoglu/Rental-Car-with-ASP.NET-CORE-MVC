@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Car>
 @{
-    ViewData["Title"] = "Cars";
+    ViewData["Title"] = "Arabalar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -122,16 +122,16 @@
                 {
                     <div class="col-md-4 car-card">
                         <div class="car-image-container">
-                            <img class="car-image" src="../images/@Html.DisplayFor(modelItem=> item.ImageFile)" alt="Car 1">
+                            <img class="car-image" src="../images/@item.ImageFile" alt="Car 1">
                         </div>
                         <div class="car-details">
-                            <p><strong>Marka:</strong> @Html.DisplayFor(modelitem => item.Brand)</p>
-                            <p><strong>Model:</strong>  @Html.DisplayFor(modelitem => item.Model)</p>
-                            <p><strong>Üretim Yılı:</strong>  @Html.DisplayFor(modelitem => item.Year)</p>
-                            <p><strong>Vites Tipi:</strong>  @Html.DisplayFor(modelitem => item.TransmissionType)</p>
-                            <p><strong>Yakıt Tipi:</strong>  @Html.DisplayFor(modelitem => item.FuelType)</p>
+                            <p><strong>Marka:</strong> @item.Brand</p>
+                            <p><strong>Model:</strong>  @item.Model</p>
+                            <p><strong>Üretim Yılı:</strong>  @item.Year</p>
+                            <p><strong>Vites Tipi:</strong>  @item.TransmissionType</p>
+                            <p><strong>Yakıt Tipi:</strong>  @item.FuelType</p>
                         </div>
-                        <div class="car-price">₺@Html.DisplayFor(modelitem => item.DailyRate) / Günlük</div>
+                        <div class="car-price">₺@item.DailyRate / Günlük</div>
                         <a asp-action="TakeReservation" asp-controller="Reservation" asp-route-id="@item.CarID" class="btn btn-primary">Kiralama</a>
                     </div>
                 }
@@ -166,9 +166,3 @@
         document.getElementById("total-cars").textContent = totalCars;
     }
 </script>
-
-
-
-
-
-

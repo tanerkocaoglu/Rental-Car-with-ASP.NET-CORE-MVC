@@ -2,7 +2,7 @@
 
 namespace RentalCar.Models
 {
-	public class RegisterViewModel
+	public class RegisterModel
 	{
 		[Required(ErrorMessage = "Ad alanını doldurmak zorunludur.")]
 		[StringLength(50)]

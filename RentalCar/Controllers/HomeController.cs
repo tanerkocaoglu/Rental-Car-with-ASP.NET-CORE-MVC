@@ -4,31 +4,38 @@ namespace RentalCar.Controllers
 {
 	public class HomeController(DatabaseContext context) : Controller
 	{
-	
+
 		private readonly DatabaseContext _context = context;
 
+		// Ana sayfa işlemi
 		public IActionResult Index()
 		{
-			return View();
+			return View(); // Ana sayfa sayfasını view'e yönlendir
 		}
 
+		// Hakkında sayfası işlemi
 		public IActionResult About()
 		{
-			return View();
+			return View(); // Hakkında sayfasını view'e yönlendir
 		}
 
 		//İletişim Sayfası
 		#region 
+
 		[HttpGet]
+		// İletişim formu get işlemi
 		public IActionResult Contact()
 		{
-			return View();
+			return View(); // İletişim formununu view'e yönlendir
 		}
+
 		[HttpPost]
-		public IActionResult Contact(ContactViewModel contactmodel)
+		// İletişim formu post işlemi
+		public IActionResult Contact(ContactModel contactmodel)
 		{
-			if (ModelState.IsValid)
+			if (ModelState.IsValid) // Eğer model geçerliyse
 			{
+				// Yeni iletişim nesnesi oluştur
 				Contact contact = new()
 				{
 					FullName = contactmodel.FullName,
@@ -37,31 +44,36 @@ namespace RentalCar.Controllers
 					Message = contactmodel.Message
 				};
 
-				_context.Contacts.Add(contact);
-				int affectedrows = _context.SaveChanges();
+				_context.Contacts.Add(contact); // İletişim nesnesini veritabanına ekle
+				int affectedrows = _context.SaveChanges(); // Değişiklikleri kaydet
 				if (affectedrows == 0)
 				{
-					ModelState.AddModelError("", "Mesaj gönderilemedi");
+					ModelState.AddModelError("", "Mesaj gönderilemedi"); // Eğer gönderme başarısız olursa hata mesajı ekle
 				}
-				ViewData["isSuccess"] = "Mesajınız başarıyla iletilmiştir.";
-				return RedirectToAction("Contact", "Home");
+				ViewData["isSuccess"] = "Mesajınız başarıyla iletilmiştir."; // Başarılı gönderim mesajı
+				return RedirectToAction("Contact", "Home"); // İletişim sayfasına yönlendir
 			}
-			return View();
+			return View(); // Geçersiz model durumunda iletişim formunu tekrar view'e yönlendir
 		}
-		#endregion
 
+		#endregion
 
 		//Arabalar Sayfası
 		#region
+
+		// Araçları listeleme işlemi
 		public IActionResult Cars()
 		{
+			// Araçlardan müsaitlik durumu true olanlar günlük kiralama ücretine göre azalan şekilde sıralanıyor
 			var cars = _context.Cars.ToList().Where(x => x.Availability == true).OrderByDescending(x => x.DailyRate);
+
+			// ViewData ile müsaitlik durumu true olan araçların sayısı aktarılıyor
 			ViewData["CarCount"] = _context.Cars.Where(x => x.Availability == true).Count();
 
-			return View(cars);
+			return View(cars); // Araba view'e müsaitlik durumu true olan arabaları göndererek yönlendirme yapılıyor
 		}
-		#endregion
 
+		#endregion
 
 		//Error
 		#region

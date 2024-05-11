@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<RentalCar.Entites.User>
 @{
-    ViewData["Title"] = "ListUser";
+    ViewData["Title"] = "Kullanıcılar";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -24,20 +24,20 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelitem => item.FullName)
+                                @item.FullName
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Username)
+                                @item.Username
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Password)
+                                @item.Password
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Email)
+                                @item.Email
                             </td>
 
                             <td>
-                                <a class="btn btn-info"   asp-controller="Account" asp-action="Edit" asp-route-id="@item.UserId"><i class="fa-solid fa-pen"></i> Düzenle</a>
+                                <a class="btn btn-info" asp-controller="Account" asp-action="Edit" asp-route-id="@item.UserId"><i class="fa-solid fa-pen"></i> Düzenle</a>
                                 <a class="btn btn-danger" asp-controller="Account" asp-action="Delete" asp-route-id="@item.UserId"><i class="fa-solid fa-trash"></i> Sil</a>
                             </td>
                         </tr>

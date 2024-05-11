@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<RentalCar.Entites.Reservation>
 
 @{
-    ViewData["Title"] = "ActiveReservation";
+    ViewData["Title"] = "Aktif Rezervasyonlar";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -29,16 +29,16 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelitem => item.ReservationID)
+                                @item.ReservationID
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.User.FullName)
+                                @item.User.FullName
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Car.Brand)
+                                @item.Car.Brand
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.Car.Model)
+                                @item.Car.Model
                             </td>
                             <td>
                                 @item.PickupDate.ToShortDateString()
@@ -47,7 +47,7 @@
                                 @item.ReturnDate.ToShortDateString()
                             </td>
                             <td>
-                                @Html.DisplayFor(modelitem => item.TotalPrice)₺
+                                @item.TotalPrice₺
                             </td>
                             <td>
                                 <a class="btn btn-info" asp-controller="Admin" asp-action="ReceiveReservation" asp-route-id="@item.ReservationID"><i class="fa-solid fa-pen"></i> TESLİM AL</a>
