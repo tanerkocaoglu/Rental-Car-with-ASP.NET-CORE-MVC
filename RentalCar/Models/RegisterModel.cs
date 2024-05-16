@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace RentalCar.Models
+﻿namespace RentalCar.Models
 {
 	public class RegisterModel
 	{

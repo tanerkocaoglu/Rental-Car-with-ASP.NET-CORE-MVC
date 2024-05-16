@@ -122,7 +122,7 @@
 			}
 
 			// Araba düzenleme formunu görüntüle
-			var carmodel = new CarModel()
+			var carmodel = new CarEditModel()
 			{
 				Brand = car.Brand,
 				Model = car.Model,
@@ -139,7 +139,7 @@
 		}
 
 		[HttpPost]
-		public IActionResult Edit(int id, CarModel carmodel)
+		public IActionResult Edit(int id, CarEditModel careditmodel)
 		{
 			// Seçilen id'li aracı bul
 			var car = _context.Cars.Find(id);
@@ -149,43 +149,51 @@
 				return RedirectToAction("Index", "Car");
 			}
 
-			if (ModelState.IsValid is false)
+			if (ModelState.IsValid)
 			{
-				// Geçerli model durumu hatalı ise, düzenleme formunu tekrar göster
-				ViewData["CarId"] = car.CarID;
-				ViewData["ImageFile"] = car.ImageFile;
-				return View(carmodel);
-			}
+				// Değişiklik var mı kontrol et
+				bool isImageChanged = careditmodel.ImageFile != null;
 
-			string newfilename = car.ImageFile;
-			if (carmodel.ImageFile != null)
-			{
 				// Yeni resim yükle ve kaydet
-				newfilename = Guid.NewGuid().ToString() + "_" + carmodel.ImageFile.FileName;
-
-				string imagefullpath = _environment.WebRootPath + "/images/" + newfilename;
-				using (var stream = System.IO.File.Create(imagefullpath))
+				string newfilename = car.ImageFile;
+				if (isImageChanged)
 				{
-					carmodel.ImageFile.CopyTo(stream);
+					newfilename = Guid.NewGuid().ToString() + "_" + careditmodel.ImageFile.FileName;
+
+					string imagefullpath = Path.Combine(_environment.WebRootPath, "images", newfilename);
+					using (var stream = System.IO.File.Create(imagefullpath))
+					{
+						careditmodel.ImageFile.CopyTo(stream);
+					}
+
+					// Eski resmi sil
+					string oldImagePath = Path.Combine(_environment.WebRootPath, "images", car.ImageFile);
+					if (System.IO.File.Exists(oldImagePath))
+					{
+						System.IO.File.Delete(oldImagePath);
+					}
 				}
-				string oldImagePath = _environment.WebRootPath + "/images/" + car.ImageFile;
-				System.IO.File.Delete(oldImagePath);
+
+				// Araba bilgilerini güncelle
+				car.Brand = careditmodel.Brand;
+				car.Year = careditmodel.Year;
+				car.DailyRate = careditmodel.DailyRate;
+				car.Model = careditmodel.Model;
+				car.TransmissionType = careditmodel.TransmissionType;
+				car.Availability = careditmodel.Availability;
+				car.ImageFile = newfilename;
+
+				// Değişiklikleri kaydet
+				_context.SaveChanges();
+
+				// Araba listesine yönlendir
+				return RedirectToAction("Index", "Car");
 			}
 
-			// Araba bilgilerini güncelle
-			car.Brand = carmodel.Brand;
-			car.Year = carmodel.Year;
-			car.DailyRate = carmodel.DailyRate;
-			car.Model = carmodel.Model;
-			car.TransmissionType = carmodel.TransmissionType;
-			car.Availability = carmodel.Availability;
-			car.ImageFile = newfilename;
-
-			// Değişiklikleri kaydet
-			_context.SaveChanges();
-
-			// Araba listesine yönlendir
-			return RedirectToAction("Index", "Car");
+			// ModelState.IsValid false ise, düzenleme formunu tekrar göster
+			ViewData["CarId"] = car.CarID;
+			ViewData["ImageFile"] = car.ImageFile;
+			return View(careditmodel);
 		}
 
 		#endregion

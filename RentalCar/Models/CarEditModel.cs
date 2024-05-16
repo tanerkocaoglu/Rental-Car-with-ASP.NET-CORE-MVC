@@ -1,6 +1,6 @@
 ﻿namespace RentalCar.Models
 {
-	public class CarModel
+	public class CarEditModel
 	{
 		public int CarID { get; set; }
 
@@ -28,9 +28,6 @@
 
 		[Required]
 		public bool Availability { get; set; } = true; // Durum
-
-		[Required(ErrorMessage = "Resim seçiniz.")]
-		public  IFormFile ImageFile { get; set; }
+		public IFormFile? ImageFile { get; set; }
 	}
-
 }

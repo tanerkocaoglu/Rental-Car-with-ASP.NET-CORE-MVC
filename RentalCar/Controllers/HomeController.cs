@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace RentalCar.Controllers
 {
 	public class HomeController(DatabaseContext context) : Controller
